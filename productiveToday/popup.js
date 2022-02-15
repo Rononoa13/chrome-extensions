@@ -1,4 +1,5 @@
 // returns total number of tabs in windows
+// Display in front "popup.html"
 chrome.tabs.query({}, function (tabs) {
     let tabsNumber = findTabs(tabs)
     document.getElementById('total_tabs').textContent += " " + tabsNumber
@@ -8,19 +9,29 @@ chrome.tabs.query({}, function (tabs) {
 chrome.tabs.query({}, function (data) {
     data.forEach(element => {
         // console.log(element.url)
-        document.getElementById('url_links').innerHTML += "<ul><li>" + element.title + "</li></ul>"
-        document.getElementById('id').textContent += data.id
+        let links = `<ul><li><a href='#' class="presentLinks">` + `${element.title}` + `</a></li></ul>`
+        // console.log(typeof(links))
+        document.getElementById('url_links').innerHTML += links
+    });
+})
+// Click on links to do something
+chrome.tabs.query({}, function (data) {
+    data.forEach(element => {
+        document.getElementById('url_links').onclick = function () {
+            alert("This works")
+        }
     });
 })
 
+
 // Checks if a particular URL is present.
-chrome.tabs.query({url:[
-    "*://*.facebook.com/*"
-]}, function(tabs){
-    // console.log(tabs[0].url);
-    tabs.forEach(element => {
-        console.log(typeof(element))
-    })
+// And close facebook if present.
+chrome.tabs.query({
+    url: [
+        "*://*.facebook.com/*"
+    ]
+}, function (tabs) {
+    console.log(tabs)
 });
 
 findTabs = (data) => {
