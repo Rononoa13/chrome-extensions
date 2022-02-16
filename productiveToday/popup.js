@@ -7,18 +7,20 @@ chrome.tabs.query({}, function (tabs) {
 
 // returns all the tabs in windows
 chrome.tabs.query({}, function (data) {
-    data.forEach(element => {
-        // console.log(element.url)
-        let links = `<ul><li><a href='#' class="presentLinks">` + `${element.title}` + `</a></li></ul>`
-        // console.log(typeof(links))
+
+    ulStart = '<ul>'
+    ulEnd = '</ul>'
+    data.reverse().forEach(element => {
+        links = `<li><a href='#' class="presentLinks">` + `${element.title}` + `</a></li>`
         document.getElementById('url_links').innerHTML += links
     });
 })
+
 // Click on links to do something
 chrome.tabs.query({}, function (data) {
     data.forEach(element => {
         document.getElementById('url_links').onclick = function () {
-            alert("This works")
+            alert("This works ")
         }
     });
 })
@@ -32,6 +34,7 @@ chrome.tabs.query({
     ]
 }, function (tabs) {
     console.log(tabs)
+    // TODO: close the tab if facebook is present.
 });
 
 findTabs = (data) => {
