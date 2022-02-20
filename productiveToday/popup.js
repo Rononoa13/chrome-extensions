@@ -7,7 +7,6 @@ chrome.tabs.query({}, function (tabs) {
 
 // Get element <h6 id="url_links">Links:</h6> from popup.html
 let myList = document.getElementById('url_links')
-
 // Create new element <ul> </ul>
 let myUlList = document.createElement('ul')
 // Create this: <li> {text} </li>
@@ -23,7 +22,13 @@ appendChildren(myList, myUlList)
 chrome.tabs.query({}, function (tabs) {
     tabs.reverse().forEach(function (element) {
         // Append <li> tag inside of <ul> tag in popup.html
-        appendChildren(myUlList, createListItem(`<a href='#'>` + `${element.title}` + `</a>`))
+        let myListItem = createListItem(`<a href='#'>` + `${element.title}` + `</a>`)
+        appendChildren(myUlList, myListItem)
+        // Click on links to do something
+        myListItem.onclick = function () {
+            // Active tab on click
+            chrome.tabs.update(element.id, { active: true })
+        }
     })
 })
 
@@ -31,19 +36,6 @@ chrome.tabs.query({}, function (tabs) {
 function appendChildren(parent, children) {
     parent.appendChild(children)
 }
-getIdURLLinks = (data) => {
-    return document.getElementById('url_links').innerHTML += data
-}
-
-// // Click on links to do something
-// chrome.tabs.query({}, function (data) {
-//     data.forEach(element => {
-//         document.getElementById('url_links').onclick = function () {
-//             alert("This works" + element.title)
-//         }
-//     });
-// })
-
 
 // Checks if a particular URL is present.
 // And close facebook if present.
