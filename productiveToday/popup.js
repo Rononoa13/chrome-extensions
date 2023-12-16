@@ -16,7 +16,7 @@ let myUlList = document.createElement('ul')
 // Create this: <li> {text} </li>
 function createListItem(text) {
     let li = document.createElement('li')
-    li.innerHTML = `<a href='#'>${text}</a>`
+    li.innerHTML = text
     return li
 }
 // Append <ul> tag inside of <h6> tag in popup.html
@@ -30,14 +30,14 @@ function appendChildren(parent, children) {
 chrome.tabs.query({}, function (tabs) {
     tabs.reverse().forEach(function (element) {
         // Append <li> tag inside of <ul> tag in popup.html
-        let myListItem = createListItem(element.title)
+        let myListItem = createListItem(`<a href='#'>` + `${element.title}` + `</a>`)
         appendChildren(myUlList, myListItem)
         // Click on links to do something
         myListItem.onclick = function () {
             chrome.windows.getCurrent(function (currentWindow) {
                 if (currentWindow.id === element.windowId) {
                     chrome.tabs.update(element.id, { active: true })
-            // } else {
+            } else {
                 chrome.windows.update(element.windowId, { focused: true }, function () {
                             // Activate the tab within the window
                             chrome.tabs.update(element.id, { active: true });
