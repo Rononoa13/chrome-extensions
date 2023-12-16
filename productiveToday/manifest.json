@@ -2,17 +2,18 @@
     "name": "Close Tabs",
     "description": "The extension close tabs of unwanted URL's",
     "version": "0.1.0",
-    "manifest_version": 2,
+    "manifest_version": 3,
     "background": {
-        "scripts": ["./background.js"]
+        "service_worker": "background.js"
     },
-    "options_page": "./options.html",
-    "browser_action": {
+    "options_ui": {
+        "page": "./options.html"
+    },
+    "action": {
         "default_popup": "popup.html"
     },
     "permissions": [
-        "tabs",
-            "https://www.google.com/*"
-    ]
+        "tabs"
+    ]    
   }
-  
+        
